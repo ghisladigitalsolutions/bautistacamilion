@@ -29,7 +29,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const photoY = useTransform(scrollYProgress, [0, 1], [0, 50]);
+  const photoY = useTransform(scrollYProgress, [0, 1], [0, 30]);
   const glowY = useTransform(scrollYProgress, [0, 1], [0, -40]);
 
   return (
@@ -55,6 +55,7 @@ export function Hero() {
         ))}
       </div>
 
+      {/* Columnas más parejas (1.1 / 0.9) para achicar el hueco entre texto y foto */}
       <div className="mx-auto grid w-full max-w-7xl items-center gap-10 px-5 sm:px-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-6">
         <div className="relative z-10 min-w-0">
           <motion.span
@@ -71,7 +72,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.1, ease }}
-            className="mt-5 text-4xl font-normal leading-[1.08] sm:text-5xl lg:text-[clamp(2rem,min(3.2vw,6.2svh),3.6rem)]"
+            className="mt-5 text-balance text-[2rem] font-normal leading-[1.1] min-[400px]:text-4xl sm:text-5xl lg:text-[clamp(2rem,min(3.2vw,6.2svh),3.6rem)]"
           >
             Muchas inmobiliarias solo publican tu propiedad.{" "}
             <span className="text-gold italic">Yo armo una estrategia para venderla.</span>
@@ -94,13 +95,13 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.4, ease }}
             className="mt-6 flex flex-col gap-3 sm:flex-row"
           >
-            <Button asChild variant="gold" size="xl">
+            <Button asChild variant="gold" size="xl" className="w-full sm:w-auto">
               <a href={whatsappLink(WA_MESSAGES.call)} target="_blank" rel="noopener noreferrer">
                 <WhatsAppIcon />
                 Agendá tu llamada gratis
               </a>
             </Button>
-            <Button asChild variant="glass" size="xl">
+            <Button asChild variant="glass" size="xl" className="w-full sm:w-auto">
               <a
                 href={whatsappLink("Hola Bautista, quiero vender mi propiedad. ¿Podemos hablar?")}
                 target="_blank"
@@ -154,11 +155,11 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.1, delay: 0.15, ease }}
-          className="relative mx-auto aspect-[4/5] w-full max-w-sm lg:mx-0 lg:aspect-[7/8] lg:h-[min(70svh,640px)] lg:w-auto lg:max-w-none lg:justify-self-end"
+          className="relative mx-auto aspect-[4/5] w-full max-w-[18rem] sm:max-w-sm lg:mx-0 lg:aspect-[7/8] lg:h-[min(70svh,640px)] lg:w-auto lg:max-w-none lg:justify-self-end"
         >
           <motion.div
             style={{ y: glowY }}
-            className="absolute -inset-6 -z-10 rounded-[3rem] bg-gold opacity-25 blur-3xl"
+            className="absolute -inset-6 -z-10 rounded-[3rem] bg-gold opacity-25 blur-2xl sm:blur-3xl"
             aria-hidden="true"
           />
           <div className="relative h-full w-full overflow-hidden rounded-[2rem] border border-primary/30 shadow-card">
@@ -166,7 +167,8 @@ export function Hero() {
               style={{ y: photoY }}
               src={photo}
               alt="Bautista Camilion, agente inmobiliario de Century 21 en Mar del Plata"
-              className="h-full w-full scale-110 object-cover object-[70%_center]"
+              className="h-full w-full scale-[1.15] object-cover object-[70%_center] will-change-transform"
+              decoding="async"
               fetchPriority="high"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
